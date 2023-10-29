@@ -12,6 +12,10 @@ export enum Position {
 
 export type GridPosition = { x: number; y: number };
 
+export type GridPositionState = 'EMPTY' | 'FILLED';
+
+export type NumberOfMarksInGrid = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
 export function onGrid(position: Position): GridPosition {
   return positions.get(position)!;
 }

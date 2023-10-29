@@ -1,5 +1,5 @@
 import { Mark, Move } from './types';
-import { onGrid, Position } from './positions';
+import { GridPositionState, NumberOfMarksInGrid, onGrid, Position } from './positions';
 
 const TOTAL_POSITIONS_ON_GRID = 9;
 
@@ -10,30 +10,40 @@ export class Grid {
     this.grid = [[], [], []];
   }
 
-  // TODO OBJECT CALISTHENICS - wrap primitives
-  hasMark(position: Position) {
-    return this.getMarkAt(position) !== undefined;
+  stateAt(position: Position): GridPositionState {
+    return this.markAt(position) !== undefined ? 'FILLED' : 'EMPTY';
   }
 
-  // TODO OBJECT CALISTHENICS - wrap primitives
-  hasSameMark(positions: Position[]) {
-    const markToCheck = this.getMarkAt(positions[0]);
-    return positions.map((position) => this.getMarkAt(position)).every((mark) => mark === markToCheck);
+  hasSameMark(positions: Position[]): 'SAME' | 'NOT_SAME' {
+    if (this.stateAt(positions[0]) === 'EMPTY') {
+      return 'NOT_SAME';
+    }
+
+    const markToCheck = this.markAt(positions[0]);
+    return positions.map((position) => this.markAt(position)).every((mark) => mark === markToCheck)
+      ? 'SAME'
+      : 'NOT_SAME';
   }
 
-  // TODO OBJECT CALISTHENICS - no getters
-  getMarkAt(position: Position) {
+  markAt(position: Position) {
     return this.grid[onGrid(position).x][onGrid(position).y];
   }
 
-  // TODO OBJECT CALISTHENICS - wrap primitives
-  isGridFull() {
-    return this.countNumberOfMarksInGrid() === TOTAL_POSITIONS_ON_GRID;
+  gridFillState(): 'EMPTY' | 'FULL' | 'OTHER' {
+    if (this.countNumberOfMarksInGrid() === 0) {
+      return 'EMPTY';
+    }
+    if (this.countNumberOfMarksInGrid() === TOTAL_POSITIONS_ON_GRID) {
+      return 'FULL';
+    }
+    return 'OTHER';
   }
 
-  // TODO OBJECT CALISTHENICS - wrap primitives
-  countNumberOfMarksInGrid() {
-    return this.grid.reduce((acc, currentRow) => acc + currentRow.reduce((acc) => acc + 1, 0), 0);
+  countNumberOfMarksInGrid(): NumberOfMarksInGrid {
+    return this.grid.reduce(
+      (acc, currentRow) => acc + currentRow.reduce((acc) => acc + 1, 0),
+      0,
+    ) as unknown as NumberOfMarksInGrid;
   }
 
   markGrid(move: Move) {

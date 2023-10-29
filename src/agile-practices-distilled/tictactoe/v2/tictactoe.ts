@@ -3,7 +3,6 @@ import { Position } from './positions';
 import { Grid } from './grid';
 import { OutcomeService } from './outcome-service';
 
-// TODO OBJECT CALISTHENICS - keep all entities small - 50 lines per class
 export class TicTacToe {
   private readonly grid: Grid;
   private readonly outcomeService: OutcomeService;
@@ -20,7 +19,7 @@ export class TicTacToe {
   }
 
   private validateGameNotYetDecided() {
-    if (this.outcomeService.determineOutcome(this.grid) !== Outcome.NOT_YET_DECIDED) {
+    if (this.calculateOutcome() !== Outcome.NOT_YET_DECIDED) {
       throw Error('Cant make a move, game is already over!');
     }
   }
@@ -32,7 +31,7 @@ export class TicTacToe {
   }
 
   private validateXStartsTheGame(move: Move) {
-    if (move.mark !== Mark.X && this.grid.countNumberOfMarksInGrid() === 0) {
+    if (move.mark !== Mark.X && this.grid.gridFillState() === 'EMPTY') {
       throw Error('X always goes first!');
     }
   }
@@ -44,13 +43,12 @@ export class TicTacToe {
   }
 
   private validateMarkFreePosition(move: Move) {
-    if (this.grid.hasMark(move.position)) {
+    if (this.grid.stateAt(move.position) === 'FILLED') {
       throw Error('Players cannot play on a played position!');
     }
   }
 
-  // TODO OBJECT CALISTHENICS - no getters
-  getOutcome(): Outcome {
+  calculateOutcome(): Outcome {
     return this.outcomeService.determineOutcome(this.grid);
   }
 }

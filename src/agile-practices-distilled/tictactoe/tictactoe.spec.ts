@@ -57,7 +57,7 @@ describe('tictactoe', () => {
     it('When the game has just started, the outcome is not yet decided', () => {
       const ticTacToe = new TicTacToe();
 
-      expect(ticTacToe.getOutcome()).toEqual(Outcome.NOT_YET_DECIDED);
+      expect(ticTacToe.calculateOutcome()).toEqual(Outcome.NOT_YET_DECIDED);
     });
 
     it('When a player has no 3 same marks in a row, the outcome is not yet decided', () => {
@@ -66,7 +66,7 @@ describe('tictactoe', () => {
       ticTacToe.makeMove(Mark.O, Position.TOP_MIDDLE);
       ticTacToe.makeMove(Mark.X, Position.TOP_RIGHT);
 
-      expect(ticTacToe.getOutcome()).toEqual(Outcome.NOT_YET_DECIDED);
+      expect(ticTacToe.calculateOutcome()).toEqual(Outcome.NOT_YET_DECIDED);
     });
 
     describe('When a player has 3 same marks in a row, that player wins', () => {
@@ -78,7 +78,7 @@ describe('tictactoe', () => {
         ticTacToe.makeMove(Mark.O, Position.MIDDLE_RIGHT);
         ticTacToe.makeMove(Mark.X, Position.BOTTOM_LEFT);
 
-        expect(ticTacToe.getOutcome()).toEqual(Outcome.WINNER_X);
+        expect(ticTacToe.calculateOutcome()).toEqual(Outcome.WINNER_X);
       });
 
       it('Scenario 2', () => {
@@ -89,7 +89,7 @@ describe('tictactoe', () => {
         ticTacToe.makeMove(Mark.O, Position.MIDDLE_MIDDLE);
         ticTacToe.makeMove(Mark.X, Position.BOTTOM_RIGHT);
 
-        expect(ticTacToe.getOutcome()).toEqual(Outcome.WINNER_X);
+        expect(ticTacToe.calculateOutcome()).toEqual(Outcome.WINNER_X);
       });
 
       it('Scenario 3', () => {
@@ -101,7 +101,7 @@ describe('tictactoe', () => {
         ticTacToe.makeMove(Mark.X, Position.BOTTOM_MIDDLE);
         ticTacToe.makeMove(Mark.O, Position.BOTTOM_LEFT);
 
-        expect(ticTacToe.getOutcome()).toEqual(Outcome.WINNER_O);
+        expect(ticTacToe.calculateOutcome()).toEqual(Outcome.WINNER_O);
       });
     });
 
@@ -117,7 +117,7 @@ describe('tictactoe', () => {
       ticTacToe.makeMove(Mark.O, Position.BOTTOM_RIGHT);
       ticTacToe.makeMove(Mark.X, Position.BOTTOM_MIDDLE);
 
-      expect(ticTacToe.getOutcome()).toEqual(Outcome.DRAW);
+      expect(ticTacToe.calculateOutcome()).toEqual(Outcome.DRAW);
     });
 
     it('When all positions have been filled but a player has 3 same marks in a row, it is not a draw', () => {
@@ -132,7 +132,7 @@ describe('tictactoe', () => {
       ticTacToe.makeMove(Mark.O, Position.BOTTOM_LEFT);
       ticTacToe.makeMove(Mark.X, Position.BOTTOM_RIGHT);
 
-      expect(ticTacToe.getOutcome()).toEqual(Outcome.WINNER_X);
+      expect(ticTacToe.calculateOutcome()).toEqual(Outcome.WINNER_X);
     });
   });
 });

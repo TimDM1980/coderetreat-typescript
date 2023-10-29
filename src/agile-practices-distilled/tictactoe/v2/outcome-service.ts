@@ -37,14 +37,14 @@ export class OutcomeService {
   }
 
   private determineDraw(grid: Grid) {
-    if (grid.isGridFull()) {
+    if (grid.gridFillState() === 'FULL') {
       return Outcome.DRAW;
     }
   }
 
   private determineWinnerInRow(grid: Grid, positions: Position[]) {
-    if (grid.hasMark(positions[0]) && grid.hasSameMark(positions)) {
-      return markOutcomes.get(grid.getMarkAt(positions[0]));
+    if (grid.hasSameMark(positions) === 'SAME') {
+      return markOutcomes.get(grid.markAt(positions[0]));
     }
   }
 }
