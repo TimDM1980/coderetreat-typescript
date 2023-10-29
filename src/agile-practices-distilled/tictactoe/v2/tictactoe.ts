@@ -1,30 +1,26 @@
-import { Mark, markOutcomes, modChecks, Move, Outcome } from './types';
+import { Mark, modChecks, Move, Outcome } from './types';
 import { Position } from './positions';
 import { Grid } from './grid';
 import { OutcomeService } from './outcome-service';
 
 // TODO OBJECT CALISTHENICS - keep all entities small - 50 lines per class
 export class TicTacToe {
-  // TODO OBJECT CALISTHENICS - no classes with more than 2 instance variables
-  private grid: Grid;
-  private outcomeService: OutcomeService;
-  private outcome: Outcome;
+  private readonly grid: Grid;
+  private readonly outcomeService: OutcomeService;
 
   constructor() {
     this.grid = new Grid();
     this.outcomeService = new OutcomeService();
-    this.outcome = Outcome.NOT_YET_DECIDED;
   }
 
   public makeMove(mark: Mark, position: Position): void {
-    this.validateGameNotYetDecided(this.outcome);
+    this.validateGameNotYetDecided();
     this.validateMove({ mark, position });
     this.grid.markGrid({ mark, position });
-    this.outcome = this.outcomeService.determineOutcome(this.grid);
   }
 
-  private validateGameNotYetDecided(outcome: Outcome) {
-    if (outcome !== Outcome.NOT_YET_DECIDED) {
+  private validateGameNotYetDecided() {
+    if (this.outcomeService.determineOutcome(this.grid) !== Outcome.NOT_YET_DECIDED) {
       throw Error('Cant make a move, game is already over!');
     }
   }
@@ -55,6 +51,6 @@ export class TicTacToe {
 
   // TODO OBJECT CALISTHENICS - no getters
   getOutcome(): Outcome {
-    return this.outcome;
+    return this.outcomeService.determineOutcome(this.grid);
   }
 }
