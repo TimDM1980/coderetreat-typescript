@@ -1,5 +1,5 @@
-import { Mark, Outcome, Position } from './types';
-import { TicTacToe } from './tictactoe';
+import { Mark, Outcome, Position } from './v2/types';
+import { TicTacToe } from './v2/tictactoe';
 
 describe('tictactoe', () => {
   describe('Validations', () => {
@@ -117,6 +117,21 @@ describe('tictactoe', () => {
       ticTacToe.makeMove(Mark.X, Position.BOTTOM_MIDDLE);
 
       expect(ticTacToe.getOutcome()).toEqual(Outcome.DRAW);
+    });
+
+    it('When all positions have been filled but a player has 3 same marks in a row, it is not a draw', () => {
+      const ticTacToe = new TicTacToe();
+      ticTacToe.makeMove(Mark.X, Position.TOP_LEFT);
+      ticTacToe.makeMove(Mark.O, Position.TOP_MIDDLE);
+      ticTacToe.makeMove(Mark.X, Position.MIDDLE_LEFT);
+      ticTacToe.makeMove(Mark.O, Position.TOP_RIGHT);
+      ticTacToe.makeMove(Mark.X, Position.MIDDLE_MIDDLE);
+      ticTacToe.makeMove(Mark.O, Position.MIDDLE_RIGHT);
+      ticTacToe.makeMove(Mark.X, Position.BOTTOM_MIDDLE);
+      ticTacToe.makeMove(Mark.O, Position.BOTTOM_LEFT);
+      ticTacToe.makeMove(Mark.X, Position.BOTTOM_RIGHT);
+
+      expect(ticTacToe.getOutcome()).toEqual(Outcome.WINNER_X);
     });
   });
 });
