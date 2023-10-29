@@ -1,4 +1,5 @@
-import { Mark, markOutcomes, Outcome, Position } from './types';
+import { Mark, markOutcomes, Outcome } from './types';
+import { Position } from './positions';
 import { Grid } from './grid';
 
 export class TicTacToe {
@@ -48,6 +49,7 @@ export class TicTacToe {
     }
   }
 
+  // TODO OBJECT CALISTHENICS - no getters
   getOutcome(): Outcome {
     return this.outcome;
   }

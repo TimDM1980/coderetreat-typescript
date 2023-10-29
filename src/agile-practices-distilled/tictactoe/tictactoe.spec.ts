@@ -1,4 +1,5 @@
-import { Mark, Outcome, Position } from './v2/types';
+import { Mark, Outcome } from './v2/types';
+import { Position } from './v2/positions';
 import { TicTacToe } from './v2/tictactoe';
 
 describe('tictactoe', () => {
