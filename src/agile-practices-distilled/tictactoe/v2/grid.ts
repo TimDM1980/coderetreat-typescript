@@ -3,6 +3,7 @@ import { onGrid, Position } from './positions';
 
 const TOTAL_POSITIONS_ON_GRID = 9;
 
+// TODO OBJECT CALISTHENICS - keep all entities small - 50 lines per class
 export class Grid {
   private readonly grid: Mark[][];
 
@@ -10,6 +11,18 @@ export class Grid {
     this.grid = [[], [], []];
   }
 
+  // TODO OBJECT CALISTHENICS - wrap primitives
+  hasMark(position: Position) {
+    return this.getMarkAt(position) !== undefined;
+  }
+
+  // TODO OBJECT CALISTHENICS - wrap primitives
+  hasSameMark(positions: Position[]) {
+    const markToCheck = this.getMarkAt(positions[0]);
+    return positions.map((position) => this.getMarkAt(position)).every((mark) => mark === markToCheck);
+  }
+
+  // TODO OBJECT CALISTHENICS - no getters
   getMarkAt(position: Position) {
     return this.grid[onGrid(position).x][onGrid(position).y];
   }
@@ -43,7 +56,7 @@ export class Grid {
   }
 
   private validateMarkFreePosition(move: Move) {
-    if (this.getMarkAt(move.position) !== undefined) {
+    if (this.hasMark(move.position)) {
       throw Error('Players cannot play on a played position!');
     }
   }
