@@ -32,5 +32,11 @@ describe('TennisGame', () => {
         checkScore(new TennisGame1('player1', 'player2'), player1Score, player2Score, expectedScore);
       });
     });
+
+    it("Can't score for an unexisting player", () => {
+      const tennisGame = new TennisGame1('player1', 'player2');
+
+      expect(() => tennisGame.wonPoint('unexisting')).toThrowError();
+    });
   });
 });
