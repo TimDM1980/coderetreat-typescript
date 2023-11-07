@@ -88,10 +88,24 @@ export class Game {
 
 type Symbol = 'X' | 'O' | ' ';
 
-interface Tile {
-  x: number;
-  y: number;
-  symbol: Symbol;
+class Tile {
+  private symbol: Symbol;
+
+  constructor(private x: number, private y: number) {
+    this.symbol = ' ';
+  }
+
+  hasPosition(x: number, y: number): boolean {
+    return this.x === x && this.y === y;
+  }
+
+  setSymbol(symbol: Symbol): void {
+    this.symbol = symbol;
+  }
+
+  getSymbol() {
+    return this.symbol;
+  }
 }
 
 class Board {
@@ -100,7 +114,7 @@ class Board {
   constructor() {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        this.tiles.push({ x: i, y: j, symbol: ' ' });
+        this.tiles.push(new Tile(i, j));
       }
     }
   }
@@ -110,14 +124,14 @@ class Board {
   }
 
   symbolAt(x: number, y: number): Symbol {
-    return this.tileAt(x, y).symbol;
+    return this.tileAt(x, y).getSymbol();
   }
 
   addTileAt(symbol: Symbol, x: number, y: number): void {
-    this.tileAt(x, y).symbol = symbol;
+    this.tileAt(x, y).setSymbol(symbol);
   }
 
   private tileAt(x: number, y: number): Tile {
-    return this.tiles.find((t: Tile) => t.x === x && t.y === y)!;
+    return this.tiles.find((t: Tile) => t.hasPosition(x, y))!;
   }
 }
