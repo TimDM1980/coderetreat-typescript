@@ -27,62 +27,29 @@ export class Game {
 
   public winner(): Symbol {
     const rowsToCheck = [
-      this.symbolForRow([
-        { x: 0, y: 0 },
-        { x: 0, y: 1 },
-        { x: 0, y: 2 },
-      ]),
-      this.symbolForRow([
-        { x: 1, y: 0 },
-        { x: 1, y: 1 },
-        { x: 1, y: 2 },
-      ]),
-      this.symbolForRow([
-        { x: 2, y: 0 },
-        { x: 2, y: 1 },
-        { x: 2, y: 2 },
-      ]),
+      this.sameSymbolForRow([{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }]),
+      this.sameSymbolForRow([{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 }]),
+      this.sameSymbolForRow([{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }]),
 
-      this.symbolForRow([
-        { x: 0, y: 0 },
-        { x: 1, y: 0 },
-        { x: 2, y: 0 },
-      ]),
-      this.symbolForRow([
-        { x: 0, y: 1 },
-        { x: 1, y: 1 },
-        { x: 2, y: 1 },
-      ]),
-      this.symbolForRow([
-        { x: 0, y: 2 },
-        { x: 1, y: 2 },
-        { x: 2, y: 2 },
-      ]),
+      this.sameSymbolForRow([{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }]),
+      this.sameSymbolForRow([{ x: 0, y: 1 }, { x: 1, y: 1 }, { x: 2, y: 1 }]),
+      this.sameSymbolForRow([{ x: 0, y: 2 }, { x: 1, y: 2 }, { x: 2, y: 2 }]),
 
-      this.symbolForRow([
-        { x: 0, y: 0 },
-        { x: 1, y: 1 },
-        { x: 2, y: 2 },
-      ]),
-      this.symbolForRow([
-        { x: 0, y: 2 },
-        { x: 1, y: 1 },
-        { x: 2, y: 0 },
-      ]),
+      this.sameSymbolForRow([{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }]),
+      this.sameSymbolForRow([{ x: 0, y: 2 }, { x: 1, y: 1 }, { x: 2, y: 0 }]),
     ];
 
-    return rowsToCheck.find((symbol) => symbol !== ' ') ?? ' ';
+    return rowsToCheck.find((symbol) => !!symbol) ?? ' ';
   }
 
-  public symbolForRow(positions: { x: number; y: number }[]): Symbol {
-    if (positions.every((position) => this.board.isTilePlayed(position.x, position.y))) {
-      const symbolToCheck = this.board.symbolAt(positions[0].x, positions[0].y);
-      if (positions.every((position) => this.board.symbolAt(position.x, position.y) === symbolToCheck)) {
+  public sameSymbolForRow(positions: { x: number; y: number }[]): Symbol | undefined {
+    const symbolToCheck = this.board.symbolAt(positions[0].x, positions[0].y);
+    if (positions.every((position) => this.board.isTilePlayed(position.x, position.y)
+      && this.board.symbolAt(position.x, position.y) === symbolToCheck)) {
         return symbolToCheck;
-      }
     }
 
-    return ' ';
+    return undefined;
   }
 }
 
